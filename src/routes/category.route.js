@@ -6,5 +6,6 @@ const validToken = require('../auth/validateJWT');
 const router = express.Router();
 
 router.post('/', validToken, validation.categoryValidation, categoryController.createCategory);
+router.get('/', validToken, categoryController.getAllCategories);
 
 module.exports = router;
