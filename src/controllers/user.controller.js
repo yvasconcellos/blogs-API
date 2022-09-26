@@ -24,6 +24,17 @@ const createUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (_req, res) => {
+  try {
+    const users = await UserService.getAllUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: 'Erro Interno' });
+  }
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };
