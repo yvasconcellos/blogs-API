@@ -20,21 +20,38 @@ const createUser = async (req, res) => {
     return res.status(201).json({ token });
   } catch (e) {
     console.log(e.message);
-    res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: 'Erro Interno' });
   }
 };
 
 const getAllUsers = async (_req, res) => {
   try {
     const users = await UserService.getAllUsers();
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: 'Erro Interno' });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await UserService.getByUserId(id);
+    if (!user) {
+      return res.status(404).json({
+        message: 'User does not exist',
+      });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: 'Erro Interno' });
   }
 };
 
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };

@@ -20,7 +20,7 @@ const getEmailAndPassword = async (req, res) => {
     return res.status(200).json({ token });
   } catch (e) {
     console.log(e.message);
-    res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: 'Erro Interno' });
   }
 };
 

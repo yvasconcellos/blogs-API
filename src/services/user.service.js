@@ -8,7 +8,8 @@ const getAllUsers = async () => {
 };
 
 const getByUserId = async (id) => {
-  const user = await User.findByPk(id);
+  const user = await User.findOne({ where: { id },
+  attributes: { exclude: ['password'] } });
   return user;
 };
 
