@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const UserService = require('../services/user.service');
 
 const secret = process.env.JWT_SECRET || 'seusecretdetoken';
+const errorMessage = 'Erro Interno';
 
 const createUser = async (req, res) => {
   try {
@@ -20,7 +21,7 @@ const createUser = async (req, res) => {
     return res.status(201).json({ token });
   } catch (e) {
     console.log(e.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -30,7 +31,7 @@ const getAllUsers = async (_req, res) => {
     return res.status(200).json(users);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -46,7 +47,17 @@ const getUserById = async (req, res) => {
     return res.status(200).json(user);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    await UserService.deleteUser(req.user.dataValues.id);
+    return res.status(204).end();
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -54,4 +65,5 @@ module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
