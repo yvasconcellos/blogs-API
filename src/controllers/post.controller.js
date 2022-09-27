@@ -19,6 +19,17 @@ const createPost = async (req, res) => {
   }
 };
 
+const getPosts = async (req, res) => {
+  try {
+    const posts = await postService.getPosts();
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: 'Erro Interno' });
+  }
+};
+
 module.exports = {
   createPost,
+  getPosts,
 };

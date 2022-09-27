@@ -6,5 +6,6 @@ const validToken = require('../auth/validateJWT');
 const router = express.Router();
 
 router.post('/', validToken, validation.postValidation, postController.createPost);
+router.get('/', validToken, postController.getPosts);
 
 module.exports = router;
