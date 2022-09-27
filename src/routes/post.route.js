@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.post('/', validToken, validation.postValidation, postController.createPost);
 router.get('/', validToken, postController.getPosts);
+router.get('/search', validToken, postController.getPostsByQuery);
 router.get('/:id', validToken, postController.getPostById);
 router.put('/:id', validToken, validation.updatePostValidation, postController.updatePost);
 router.delete('/:id', validToken, postController.deletePost);

@@ -89,10 +89,25 @@ const deletePost = async (req, res) => {
   }
 };
 
+const getPostsByQuery = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const post = await postService.getPostsByQuery(q);
+    if (!post) {
+      return res.status(200).json([]);
+  }
+    return res.status(200).json(post);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: errorMessage });
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   updatePost,
   deletePost,
+  getPostsByQuery,
 };
