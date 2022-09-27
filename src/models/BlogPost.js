@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     updated: { type: DataTypes.DATE },
   },
   {
+    timestamps: false,
     tableName: 'blog_posts',
     underscored: true,
   });

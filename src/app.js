@@ -9,6 +9,7 @@ app.use(express.json());
 app.use('/login', Routes.loginRoutes);
 app.use('/user', Routes.userRoutes);
 app.use('/categories', Routes.categoryRoutes);
+app.use('/post', Routes.postRoutes);
 
 // ...
 
