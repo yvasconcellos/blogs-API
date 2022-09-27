@@ -1,6 +1,8 @@
 require('dotenv/config');
 const postService = require('../services/post.service');
 
+const errorMessage = 'Erro Interno';
+
 const createPost = async (req, res) => {
   try {
     const { title, content, categoryIds } = req.body;
@@ -15,7 +17,7 @@ const createPost = async (req, res) => {
     return res.status(201).json(category);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -25,7 +27,7 @@ const getPosts = async (req, res) => {
     return res.status(200).json(posts);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -41,7 +43,7 @@ const getPostById = async (req, res) => {
     return res.status(200).json(post);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -62,7 +64,28 @@ const updatePost = async (req, res) => {
     return res.status(200).json(post);
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: 'Erro Interno' });
+    return res.status(500).json({ message: errorMessage });
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const idValidation = await postService.getPostById(id);
+    if (!idValidation) {
+      return res.status(404).json({ message: 'Post does not exist' });
+    }
+    if (idValidation.userId !== req.user.dataValues.id) {
+      return res.status(401).json({
+        message: 'Unauthorized user',
+      });
+    }
+    await postService.deletePost(id);
+    return res.status(204).end();
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: errorMessage });
   }
 };
 
@@ -71,4 +94,5 @@ module.exports = {
   getPosts,
   getPostById,
   updatePost,
+  deletePost,
 };
